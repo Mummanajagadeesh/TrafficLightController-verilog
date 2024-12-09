@@ -5,11 +5,11 @@ To prepare a simple traffic light controller using verilog
 
 ## THEORY:
 
-![lane diagram](UsingDFF/images/lane-picture.png)
+![lane diagram](images/lane-picture.png)
 
 Consider the problem of controlling a traffic light at the intersection of two equally busy streets, A Street and B Street. Our traffic light controller takes two inputs – CarA (which is high when there is a car just before the intersection on A Street – in either direction), and CarB (which is high when there is a car just before the intersection on B street). The controller needs to generate six outputs – RedA, YellowA, GreenA, RedB, YellowB, and GreenB – which drive the respective traffic lights for A Street and B Street. In the figure above, CarA will be high, since there is a car (the rectangle) on A Street, and CarB will be low, since there is no car on B Street. Also in the Figure RedA is high since A Street has a red light, and GreenB is high since B Street has a green light. All other outputs are low. We can think of the traffic light controller as a black box that takes two inputs (and a clock) and generates six outputs as shown below. 
 
-![block diagram](UsingDFF/images/tlcblock.png)
+![block diagram](images/tlcblock.png)
 
 1.	When the light is green on A Street and a car is waiting on B Street, give A Street a yellow light for one clock cycle and then give A Street a red light and B Street a green light for at least two cycles.
 2.	When the light is green on A Street and there is no car on B Street, leave the light green on A Street.
@@ -22,17 +22,17 @@ Consider the problem of controlling a traffic light at the intersection of two e
 
 We can translate these five rules into the following state diagram. For clarity, we omit the transitions that take all states to state AG2 (A Green 2nd cycle) when reset is true.
 
-![state diagram](UsingDFF/images/state-diagram.png)
+![state diagram](images/state-diagram.png)
 
 Each circle in the state diagram represents a state. The name of the state is in the circle and the state of the six output lines (in the order listed above) is shown below that state. The transitions between the states are labeled with the signals that make these transitions occur. Most of the edges have no label which indicates that the transition always occurs (unless reset is asserted).
 When our finite-state machine (FSM) is in state AG2, A Street has a green light and B Street has a red light. The transition from AG2 back to itself indicates that as long as there is no car on B Street we keep the A Street light green. The transition to AY (for A Yellow) indicates that if there is a car on B Street, we make the A Street light yellow on the next cycle. AY always transitions to BG1 (for B Green 1st cycle) where the A Street light becomes red and the B Street light becomes green. BG1 always transitions to BG2 where the FSM waits for a car on A Street before sequencing through BY and AG1 back to AG2.
 From this state diagram we can write the following state table:
 
-![state table](UsingDFF/images/state-table.png)
+![state table](images/state-table.png)
 
 ## CIRCUIT DIAGRAM IMPLEMENTED:
 
-![ckt diagram](UsingDFF/images/circuit-diagram.jpg)
+![ckt diagram](images/circuit-diagram.jpg)
 
 ### INPUTS FOR D FLIP FLOPS:
 ```
@@ -180,6 +180,6 @@ reset = 0 carA = 1 carB = 0 : lightsA = 001 lightsB = 100 state = 001000
 reset = 0 carA = 1 carB = 1 : lightsA = 100 lightsB = 001 state = 000001
 ```
 
-![waveform](UsingDFF/images/waveform.png)
+![waveform](images/waveform.png)
 
 
