@@ -33,6 +33,105 @@ From this state diagram we can write the following state table:
 
 ![state table](images/state-table.png)
 
+<table>
+  <tr>
+    <th>State</th>
+    <th colspan="3">Inputs</th>
+    <th>nextState</th>
+    <th colspan="2">Outputs</th>
+  </tr>
+  <tr>
+    <th></th>
+    <th>reset</th>
+    <th>CarA</th>
+    <th>CarB</th>
+    <th></th>
+    <th>A lights</th>
+    <th>B lights</th>
+  </tr>
+  <tr>
+    <td>*</td>
+    <td>1</td>
+    <td>*</td>
+    <td>*</td>
+    <td>AG2</td>
+    <td>Green</td>
+    <td>Red</td>
+  </tr>
+  <tr>
+    <td>AG2</td>
+    <td>0</td>
+    <td>0</td>
+    <td>*</td>
+    <td>AG2</td>
+    <td>Green</td>
+    <td>Red</td>
+  </tr>
+  <tr>
+    <td>AG2</td>
+    <td>0</td>
+    <td>*</td>
+    <td>1</td>
+    <td>AY</td>
+    <td>Green</td>
+    <td>Red</td>
+  </tr>
+  <tr>
+    <td>AY</td>
+    <td>0</td>
+    <td>*</td>
+    <td>*</td>
+    <td>BG1</td>
+    <td>Yellow</td>
+    <td>Red</td>
+  </tr>
+  <tr>
+    <td>BG1</td>
+    <td>0</td>
+    <td>*</td>
+    <td>*</td>
+    <td>BG2</td>
+    <td>Red</td>
+    <td>Green</td>
+  </tr>
+  <tr>
+    <td>BG2</td>
+    <td>0</td>
+    <td>*</td>
+    <td>1</td>
+    <td>BY</td>
+    <td>Red</td>
+    <td>Green</td>
+  </tr>
+  <tr>
+    <td>BG2</td>
+    <td>0</td>
+    <td>0</td>
+    <td>1</td>
+    <td>BY</td>
+    <td>Red</td>
+    <td>Green</td>
+  </tr>
+  <tr>
+    <td>BY</td>
+    <td>0</td>
+    <td>*</td>
+    <td>*</td>
+    <td>AG1</td>
+    <td>Red</td>
+    <td>Yellow</td>
+  </tr>
+  <tr>
+    <td>AG1</td>
+    <td>0</td>
+    <td>*</td>
+    <td>*</td>
+    <td>AG2</td>
+    <td>Green</td>
+    <td>Red</td>
+  </tr>
+</table>
+
 
 
 ## CIRCUIT DIAGRAM IMPLEMENTED:
