@@ -1,7 +1,9 @@
 # TRAFFIC LIGHT CONTROLLER 🚦
 
 ## AIM:
+
 To prepare a simple traffic light controller using verilog
+
 
 ## THEORY:
 
@@ -26,16 +28,21 @@ We can translate these five rules into the following state diagram. For clarity,
 
 Each circle in the state diagram represents a state. The name of the state is in the circle and the state of the six output lines (in the order listed above) is shown below that state. The transitions between the states are labeled with the signals that make these transitions occur. Most of the edges have no label which indicates that the transition always occurs (unless reset is asserted).
 When our finite-state machine (FSM) is in state AG2, A Street has a green light and B Street has a red light. The transition from AG2 back to itself indicates that as long as there is no car on B Street we keep the A Street light green. The transition to AY (for A Yellow) indicates that if there is a car on B Street, we make the A Street light yellow on the next cycle. AY always transitions to BG1 (for B Green 1st cycle) where the A Street light becomes red and the B Street light becomes green. BG1 always transitions to BG2 where the FSM waits for a car on A Street before sequencing through BY and AG1 back to AG2.
+
 From this state diagram we can write the following state table:
 
 ![state table](images/state-table.png)
+
+
 
 ## CIRCUIT DIAGRAM IMPLEMENTED:
 
 ![ckt diagram](images/circuit-diagram.jpg)
 
+
+
 ### INPUTS FOR D FLIP FLOPS:
-```
+```verilog
 D1 = Q3 + (~CB)•(Q1) + reset
 D2 = Q1•CB
 D3 = Q5
@@ -43,8 +50,9 @@ D4 = (Q6 + (Q4•(~CA)) + reset
 D5 = Q4•CB
 D6 = Q2
 ```
+
 ### OVERALL OUPUTS:
-```
+```verilog
 RedA = Q5 + reset + (~reset) •(Q4 + Q6)
 YellowA = Q2 • (~reset)
 GreenA = (~reset) •(Q1 + Q3)
@@ -54,8 +62,9 @@ YellowB = Q5•(~reset)
 GreenB = (~reset) •(Q5 + Q6)
 ```
 
+
 ## DESIGN CODE:
-```
+```verilog
 module TLC(clk, reset, carA, carB, lightsA, lightsB) ;
 input clk ; // clock
 input reset ; // reset
@@ -90,7 +99,7 @@ endmodule
 ```
 
 ## TESTBENCH CODE:
-```
+```verilog
 `timescale 1ns/1ns
 module TLC_tb;
 // Parameters
@@ -146,7 +155,9 @@ always @(posedge clk) begin
 end
 endmodule
 ```
+
 ### CODE EXPLANATION:
+
 #### DESIGN CODE:
 
 Functionality:
@@ -165,7 +176,7 @@ The testbench initializes the inputs, generates a clock signal (clk), applies te
 
 
 ## OUPUT:
-```
+```verilog
 reset = 1 carA = 0 carB = 0 : lightsA = 100 lightsB = 100 state = 100000
 reset = 0 carA = 0 carB = 0 : lightsA = 001 lightsB = 100 state = 100000
 reset = 0 carA = 0 carB = 1 : lightsA = 100 lightsB = 001 state = 000001
