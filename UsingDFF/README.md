@@ -330,7 +330,5 @@ The waveform visualizes the same transitions observed in the output table. Key p
 - The `lightsA` and `lightsB` signals follow the expected traffic light rules.
 - `Reset` enforces the initial state (`AG2`), confirming the correctness of initialization.
 
-This output validates that the traffic light controller operates correctly, adhering to the specified rules and handling inputs dynamically to ensure proper traffic flow.
-
 
 
