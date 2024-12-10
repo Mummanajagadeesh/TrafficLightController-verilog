@@ -292,4 +292,45 @@ reset = 0 carA = 1 carB = 1 : lightsA = 100 lightsB = 001 state = 000001
 
 ![waveform](images/waveform.png)
 
+**Output Columns Explanation**:
+1. `reset`: Indicates whether the controller is in reset mode (`1` = reset active, `0` = normal operation).
+2. `carA`: Indicates whether there is a car waiting on Street A (`1` = car present, `0` = no car).
+3. `carB`: Indicates whether there is a car waiting on Street B (`1` = car present, `0` = no car).
+4. `lightsA` and `lightsB`: 3-bit outputs indicating the light status for streets A and B, respectively:
+   - `100`: Red
+   - `010`: Yellow
+   - `001`: Green
+5. `state`: 6-bit internal state of the controller, where each bit corresponds to one of the states (`ag2`, `ay`, `ag1`, `bg2`, `by`, `bg1`).
+
+**Key Observations from the Output**:
+
+1. **Reset Behavior**:
+   - When `reset = 1`, the controller initializes to the default state (`AG2`), where Street A has a green light (`lightsA = 100`) and Street B has a red light (`lightsB = 100`).
+
+2. **State Transitions**:
+   - **Initial State** (`AG2`): Street A has a green light, and Street B has a red light. The controller remains in this state as long as `carB = 0`.
+   - **Transition to AY**: When `carB = 1`, the controller transitions to `AY` (A Yellow), giving Street A a yellow light while preparing to switch to B Street.
+   - **Transition to BG1/BG2**: After `AY`, the controller transitions to `BG1` and `BG2`, giving Street B the green light and Street A the red light. The controller waits for at least two cycles on Street B (`BG1` and `BG2`) before checking for `carA`.
+   - **Transition to BY**: When `carA = 1`, the controller transitions to `BY` (B Yellow), switching from Street B back to Street A.
+
+3. **Input-Driven State Changes**:
+   - The controller responds dynamically to `carA` and `carB`, switching states and light colors based on the presence of cars. For example:
+     - `carA = 0, carB = 1`: Street B gets priority (transition from `AG2` → `AY` → `BG1`).
+     - `carA = 1, carB = 0`: Street A gets priority (transition from `BG2` → `BY` → `AG1`).
+
+4. **Output Consistency**:
+   - The outputs (`lightsA` and `lightsB`) match the expected light status for each state in the state table:
+     - `lightsA = 100` (Red for A) corresponds to `BG1`/`BG2` states.
+     - `lightsB = 001` (Green for B) corresponds to `BG1`/`BG2` states.
+     - `lightsA = 001` (Green for A) corresponds to `AG1`/`AG2` states.
+
+**Waveform Analysis**:
+The waveform visualizes the same transitions observed in the output table. Key points:
+- The state bits change in accordance with the state transitions defined by the FSM.
+- The `lightsA` and `lightsB` signals follow the expected traffic light rules.
+- `Reset` enforces the initial state (`AG2`), confirming the correctness of initialization.
+
+This output validates that the traffic light controller operates correctly, adhering to the specified rules and handling inputs dynamically to ensure proper traffic flow.
+
+
 
